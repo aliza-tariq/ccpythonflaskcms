@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+    label{
+        font-size: 30px;
+    }
+    select{
+        width: 250px;
+        height: 35px;
+    }
+    input{
+        width: 250px;
+        height: 30px;
+    }
+    body{
+        background-color: lightseagreen;
+    }
+
+
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>input</title>
+</head>
+<body>
+<form action="/loginUser"  method="post">
+    <label><b>Email</b></label>
+    <input type="text" name="email" /><br><br>
+
+    <label><b>Password</b></label>
+    <input type="password" name="pwd" /><br><br>
+
+    <label><b>Account Type</b></label>
+    <select name ="acctype">
+    <option value = "Teacher">TEACHER</option>
+    <option value = "Student">STUDENT</option>
+        <option value = "Admin">ADMIN</option>
+    </select><br><br>
+
+
+    <input type="submit" value="submit" style="height:50px; font-size: 30px;">
+</form>
+
+{% if errormsg!=None %}
+{{ errormsg }}
+{% endif %}
+
+{% if error!=None %}
+{{ error }}
+{% endif %}
+
+</body>
+</html>

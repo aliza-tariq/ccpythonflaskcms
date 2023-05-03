@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    body{
+        background-color: lightblue;
+    }
+         table, th, td {
+            border: 1px solid black;
+         }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SHOW ALL</title>
+</head>
+
+<body>
+
+<h1><u>TEACHER</u></h1>
+<table>
+    <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>ID</th>
+        <th>Password</th>
+        <th>Account Status</th>
+  </tr>
+
+    {%for d in data2 %}
+    <tr>
+        <td>{{d[0]}}</td>
+        <td>{{d[1]}}</td>
+        <td>{{d[2]}}</td>
+        <td>{{d[3]}}</td>
+        <td>{{d[4]}}</td>
+    </tr>
+    {%endfor%}
+</table>
+
+<h1><u>STUDENT</u></h1>
+<table>
+    <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>ID</th>
+        <th>Password</th>
+        <th>Account Status</th>
+  </tr>
+
+    {% for d in data1 %}
+    <tr>
+        <td>{{d[0]}}</td>
+        <td>{{d[1]}}</td>
+        <td>{{d[2]}}</td>
+        <td>{{d[3]}}</td>
+        <td>{{d[4]}}</td>
+    </tr>
+    {%endfor%}
+</table>
+
+
+
+{% if error!=None %}
+{{ error }}
+{% endif %}
+</body>
+</html>

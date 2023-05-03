@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<style>
+         table, th, td {
+            border: 1px solid black;
+         }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Show Classrooms</title>
+</head>
+<body>
+
+<a href="/loginStd">Home Student</a>
+
+{%if data!=None %}
+<table>
+    <tr>
+    <th>ClassRoom IDs</th>
+
+  </tr>
+
+    {%for d in data %}
+    <tr>
+        <td>{{d[0]}}</td>
+    </tr>
+    {%endfor%}
+</table>
+
+{%endif%}
+{% if error!=None %}
+{{ error }}
+{% endif %}
+
+
+</body>
+</html>

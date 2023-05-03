@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/loginStd">Home Student</a>
+<form action="/joinclassroom_"  method="post">
+
+    <label><b>Class Room Id</b></label>
+    <input type="text" name="cid" /><br><br>
+
+    <label><b>Teacher id </b></label>
+    <input type="text" name="tid" /><br><br>
+
+    <input type="submit" value="submit"/>
+</form>
+
+{% if msg!=None %}
+{{ msg }}
+{% endif %}
+
+{% if error!=None %}
+{{ error }}
+{% endif %}
+
+
+</body>
+</html>

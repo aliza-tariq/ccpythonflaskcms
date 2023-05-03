@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    body{
+        background-color: lightblue;
+    }
+
+
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Login Teacher</title>
+</head>
+<body>
+<h1>Login As Teacher</h1><br>
+<center>
+<a href="/createclassroom">Create ClassRoom</a><br>
+<a href="/addstudent">Add Student</a><br>
+<a href="/showallclassroom">Show All Classroom</a><br>
+<a href="/logoutTech"> ** Logout ** </a>
+</center>
+{% if msg!=None %}
+{{ msg }}
+{% endif %}
+</body>
+
+</html>

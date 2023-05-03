@@ -1,0 +1,106 @@
+Create Database ClassRoomManagementSystem;
+
+Create Table Teacher(
+    teacher_str varchar(4) default 'TCH_',
+    teacher_no int(5) AUTO_INCREMENT,
+    teacher_id  varchar( 10 ) default 'TCHID',
+    
+    teacher_name varchar(100) not null,
+    teacher_email varchar(100) not null,
+    teacher_password varchar(255) not null,
+    tch_acc_status int(1) default 1,
+    
+    PRIMARY KEY(teacher_no,teacher_id),
+    CONSTRAINT email_uk UNIQUE (teacher_email)
+);
+
+ALTER TABLE Teacher AUTO_INCREMENT=20001;
+
+
+
+Create Table Student(
+    student_str varchar(4) default 'STD_',
+    student_no int(5) AUTO_INCREMENT,
+    student_id  varchar( 10 ) default 'STDID',
+    
+    student_name varchar(100) not null,
+    student_email varchar(100) not null,
+    student_password varchar(255) not null,
+    std_acc_status int(1) default 1,
+    
+    PRIMARY KEY(student_no,student_id),
+    CONSTRAINT std_email_uk UNIQUE (student_email)
+);
+
+ALTER TABLE Student AUTO_INCREMENT=40001;
+
+
+
+
+Create Table Admin(
+    admin_str varchar(4) default 'ADM_',
+    admin_no int(5) AUTO_INCREMENT,
+    admin_id  varchar( 10 ) default 'ADMID',
+    
+    admin_name varchar(100) not null,
+    admin_email varchar(100) not null,
+    admin_password varchar(255) not null,
+    
+    PRIMARY KEY(admin_no,admin_id),
+    CONSTRAINT adm_email_uk UNIQUE (admin_email)
+);
+
+
+
+Create Table Classroom(
+    classroom_id  varchar( 5 ) not null,
+    classroom_name varchar(100) not null,
+    
+    teacher_no int(5) not null,
+    teacher_id  varchar( 10 ) not null,
+    
+    date_created date not null DEFAULT CURRENT_DATE,
+    date_deleted date,
+    cls_remove_status int(1) default 1,
+    
+    PRIMARY KEY(classroom_id,teacher_id),
+    CONSTRAINT tchno_fk1 FOREIGN KEY (teacher_no) references teacher(teacher_no)
+);
+
+
+
+
+create table Enrollment(
+	classroom_id varchar(100) not null,
+    student_id varchar(10) not null,
+    student_no int(5) not null,
+    
+    teacher_id varchar(10) not null,
+    
+    enroll_status int(1) default 1,
+    PRIMARY KEY(classroom_id,student_id,teacher_id),
+    CONSTRAINT tchno_fk3 FOREIGN KEY (student_no) references student(student_no)
+);
+
+
+
+
+Create Table Post(
+    post_str varchar(4) default 'PST_',
+    post_no int(5) AUTO_INCREMENT,
+    post_id  varchar( 10 ) default 'POST', 
+ 
+    classroom_id varchar(100) not null,
+    teacher_id varchar(10) not null,
+    post_string varchar(1000) not null,
+    
+    PRIMARY KEY(post_no,post_id,teacher_id),
+    CONSTRAINT cls1_fk2 FOREIGN KEY (classroom_id) references classroom(classroom_id)
+    
+);
+ALTER TABLE POST AUTO_INCREMENT=80001;
+
+
+INSERT INTO admin (admin_name,admin_email,admin_password)
+VALUES ("Admin1","admin@gmail.com","admin1234");
+UPDATE admin set admin_id=concat(admin_str,admin_no);

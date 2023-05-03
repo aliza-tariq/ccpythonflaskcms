@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+         table, th, td {
+            border: 1px solid black;
+         }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Show Classrooms</title>
+</head>
+<body>
+
+<a href="/logintech">Home Teacher</a>
+
+{%if data!=None %}
+<table>
+    <tr>
+    <th>Class Room ID</th>
+        <th>Classroom Name</th>
+
+  </tr>
+
+    {%for d in data %}
+    <tr>
+        <td>{{d[0]}}</td>
+        <td>{{d[1]}}</td>
+    </tr>
+    {%endfor%}
+</table>
+
+{%endif%}
+{% if error!=None %}
+{{ error }}
+{% endif %}
+
+
+</body>
+</html>
