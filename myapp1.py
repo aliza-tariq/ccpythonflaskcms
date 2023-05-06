@@ -7,6 +7,10 @@ from Classes import User, ClassObject, EnrollmentObject
 from DBHandler import DataBaseHandler
 import random
 
+
+handler = DataBaseHandler("cmsrdsdatabase.cbkhtbowrv8m.eu-north-1.rds.amazonaws.com", "admin", 'user12345', "classroommanagementsystem")
+#handler = DataBaseHandler("localhost", "root", '', "classroommanagementsystem")
+
 def generateClassId(unique):
     chars = "bdfhjlnprtvxz"
     str = ""
@@ -31,7 +35,7 @@ def validationLogin(name1,email1,pwd1):
 
 def checkUserAlreadyExist(acctype,email):
     try:
-        handler = DataBaseHandler("cmsrdsdatabase.cbkhtbowrv8m.eu-north-1.rds.amazonaws.com", "admin", 'user12345', "classroommanagementsystem")
+       # handler = DataBaseHandler("cmsrdsdatabase.cbkhtbowrv8m.eu-north-1.rds.amazonaws.com", "admin", 'user12345', "classroommanagementsystem")
         #handler = DataBaseHandler("localhost", "root", '', "classroommanagementsystem")
         return handler.checkTeacherStdExist(acctype,email)
     except Exception as e:
@@ -47,7 +51,6 @@ def test():
 @myapp1.route('/showAllUsers')
 def showAllUsers():
     try:
-        handler = DataBaseHandler("cmsrdsdatabase.cbkhtbowrv8m.eu-north-1.rds.amazonaws.com", "admin", 'user12345', "classroommanagementsystem")
         data1 = handler.getStudents()
         data2=handler.getTeachers()
         return render_template("loginadmin.html",data1=data1,data2=data2)
@@ -81,7 +84,6 @@ def signup():
     if login== True:
         user1=User(nm,email,pwd,acctype)
         try:
-            handler = DataBaseHandler("cmsrdsdatabase.cbkhtbowrv8m.eu-north-1.rds.amazonaws.com", "admin", 'user12345', "classroommanagementsystem")
             handler.addUser(user1)
 
         except Exception as e:
@@ -126,7 +128,6 @@ def loginUser():
 
         flag = False
         try:
-            handler = DataBaseHandler("cmsrdsdatabase.cbkhtbowrv8m.eu-north-1.rds.amazonaws.com", "admin", 'user12345', "classroommanagementsystem")
             flag1 = handler.checkUserExist(user1)
             flag2 = handler.checkUserAccountDisable(user1)
         except Exception as e:
@@ -197,22 +198,20 @@ def createclassroom_():
         email1 = request.cookies.get("uemail")
         acctype1 = request.cookies.get("uacctype")
 
-        DBObj=DataBaseHandler("cmsrdsdatabase.cbkhtbowrv8m.eu-north-1.rds.amazonaws.com", "admin", 'user12345', "classroommanagementsystem")
-
         user1 =User("",email1,"",acctype1)
 
-        idtech=DBObj.getId(user1)
+        idtech=handler.getId(user1)
 
 
         unique = set()
         classID = generateClassId(unique)
-        IdList = DBObj.fetchIDs("Teacher", classID)
+        IdList = handler.fetchIDs("Teacher", classID)
         if len(IdList) == 0:
             status = False
             while status == False:
                 unique = set()
                 Class_Id = generateClassId(unique)
-                status = DBObj.checkClassID("Teacher", Class_Id)
+                status = handler.checkClassID("Teacher", Class_Id)
                 if status == True:
                     classroom1 = ClassObject()
                     classroom1.classId = Class_Id
@@ -220,7 +219,7 @@ def createclassroom_():
                     classroom1.TeacherId = idtech
                     idList = str(idtech).split("_")
                     classroom1.TeacherNo = idList[1]
-                    DBObj.addClassroom(classroom1)
+                    handler.addClassroom(classroom1)
                 else:
                     status = False
             return render_template("loginteacher.html",msg="Class Room Created Successfully!!")
@@ -258,17 +257,15 @@ def addstudent_():
             cid = request.args.get("cid")
             stdid=request.args.get("stdid")
 
-        DBObj=DataBaseHandler("cmsrdsdatabase.cbkhtbowrv8m.eu-north-1.rds.amazonaws.com", "admin", 'user12345', "classroommanagementsystem")
-
         user1 =User("",email1,"",acctype1)
 
         idList = str(stdid).split("_")
         stdid1 = idList[0]
         stdno1 = idList[1]
 
-        idtech=DBObj.getId(user1)
+        idtech=handler.getId(user1)
         enr=EnrollmentObject(cid,stdid1,stdno1,idtech)
-        DBObj.addToClassroom(enr)
+        handler.addToClassroom(enr)
         return render_template("loginteacher.html", msg="Student Successfully!!")
     except Exception as e:
         print("Class Creation Failed ", str(e))
@@ -284,12 +281,10 @@ def showallclassroom():
         if email1 == None and acctype1 == None:
             return render_template("loginUser.html", errormsg="Please First Login to use this feature")
 
-        DBObj = DataBaseHandler("cmsrdsdatabase.cbkhtbowrv8m.eu-north-1.rds.amazonaws.com", "admin", 'user12345', "classroommanagementsystem")
-
         user1 = User("", email1, "", acctype1)
-        idtech = DBObj.getId(user1)
+        idtech = handler.getId(user1)
 
-        list1=DBObj.fetchClsIDs(acctype1,idtech)
+        list1=handler.fetchClsIDs(acctype1,idtech)
         if list1!=None:
             return render_template("ShowClassrooms.html", data=list1)
         else:
@@ -359,19 +354,16 @@ def joinClass_():
             cid = request.args.get("cid")
             tid=request.args.get("tid")
 
-
-        DBObj = DataBaseHandler("cmsrdsdatabase.cbkhtbowrv8m.eu-north-1.rds.amazonaws.com", "admin", 'user12345', "classroommanagementsystem")
-
         userstd = User("", email1, "", acctype1)
 
 
-        idstd = DBObj.getId(userstd)
+        idstd = handler.getId(userstd)
         idList = str(idstd).split("_")
         stdid1=idList[0]
         stdno1 = idList[1]
 
         enr = EnrollmentObject(cid, idstd, stdno1, tid)
-        DBObj.addToClassroom(enr)
+        handler.addToClassroom(enr)
         return render_template("joinClass.html", msg="Student join Successfully!!")
 
     except Exception as e:
@@ -389,12 +381,10 @@ def showllAllStd():
         if email1 == None and pwd1 == None and acctype1 == None:
             return render_template("loginUser.html", error=True, errormsg="Please First Login to use this feature")
 
-        DBObj =DataBaseHandler("cmsrdsdatabase.cbkhtbowrv8m.eu-north-1.rds.amazonaws.com", "admin", 'user12345', "classroommanagementsystem")
-
         user1 = User("", email1, "", acctype1)
-        idtech = DBObj.getId(user1)
+        idtech = handler.getId(user1)
 
-        list1=DBObj.fetchClsIDs(acctype1,idtech)
+        list1=handler.fetchClsIDs(acctype1,idtech)
 
         return render_template("ShowClassroomsStd.html", data=list1)
 
